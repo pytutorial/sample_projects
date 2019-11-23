@@ -1,0 +1,45 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+<div class='container pt-3'>
+  <h4>Xác nhận thông tin mua hàng</h4>
+  <table class="table table-form">
+    <tr>
+      <th colspan="2">
+        <h5>Thông tin sản phẩm</h4>
+      </th>
+    </tr>
+    <tr>
+      <th>Sản phẩm:</th>
+      <td>
+        <span>{{ product.name }}</span>
+        <br>
+        <img src="/{{product.image}}" style="max-height: 100px;">
+      </td>
+    </tr>
+    <tr>
+      <th>Giá:</th>
+      <td>{{ product.price }} ₫</td>
+    </tr>
+
+    <tr>
+      <th colspan="2">
+        <h5>Thông tin người mua hàng</h4>
+      </th>
+    </tr>
+    <tr>
+      <th>Họ và tên:</th>
+      <td>{{ form.fullname }}</td>
+    </tr>
+    <tr>
+      <th>Số điện thoại:</th>
+      <td>{{ form.phone }}</td>
+    </tr>
+    <tr>
+      <th>Địa chỉ:</th>
+      <td>{{ form.address }}</td>
+    </tr>
+  </table>
+  <a href='{% url "thank-you" %}' class='btn btn-primary'>Xác nhận</a>
+</div>
+{% endblock %}

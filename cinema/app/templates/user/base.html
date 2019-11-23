@@ -1,0 +1,30 @@
+<meta charset="UTF-8">
+<link rel="stylesheet" href="/static/css/bootstrap.css">
+<link rel="stylesheet" href="/static/css/main.css">
+<script src="/static/js/jquery-3.3.1.slim.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/vue.js"></script>
+<script src="/static/js/main.js"></script>
+<script src="https://kit.fontawesome.com/e2db74ebd5.js" crossorigin="anonymous"></script>
+
+
+<div class="bg-primary">
+  <div>
+    <nav class="navbar navbar-expand navbar-dark bg-primary p-0">
+      <ul class="navbar-nav ml-3">
+        <li class="nav-item {% if not page %} active {% endif %}">
+          <a class="nav-link" href="{% url 'home' %}">Phim đang chiếu</a>
+        </li>
+        <li class="nav-item {% if page == 1 %} active {% endif %}">
+          <a class="nav-link" href="{% url 'upcoming-movies' %}">Phim sắp chiếu</a>
+        </li>
+        <li class="nav-item {% if page == 2 %} active {% endif %}">
+          <a class="nav-link" href="{% url 'contact' %}">Liên hệ</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+{%block content %}
+{% endblock %}

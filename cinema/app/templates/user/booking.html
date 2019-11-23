@@ -1,0 +1,71 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <form method="POST" novalidate>
+    {% csrf_token %}
+    <h4>Đặt mua vé trực tuyến</h4>
+    <table class="table table-form">
+      <tr>
+        <th colspan="2">
+          <h5>Thông tin phim đặt vé</h4>
+        </th>
+      </tr>
+      <tr>
+        <th>Tên phim:</th>
+        <td>
+          <img src="/{{movie.image}}" style="max-height: 200px;">
+          <br>
+          <span>{{ movie.name }}</span>
+        </td>
+      </tr>
+      <tr>
+        <th>Giá vé:</th>
+        <td>{{ movie.price }} ₫</td>
+      </tr>
+
+      <tr>
+        <th>Số lượng vé đặt:</th>
+        <td>
+          <input name="qty" value="{{ form.qty.value|default:'' }}" class="form-control" type="number">
+          {{ form.qty.errors }}
+        </td>
+      </tr>
+
+      <tr>
+        <th>Ngày giờ xem:</th>
+        <td>
+          <select name="date" class="form-control">
+            <option value="">------</option>
+            {% for date in dates %}
+              <option value="{{ date }}">{{ date }}</option>
+            {% endfor %}
+          </select>
+          {{ form.date.errors }}
+        </td>
+      </tr>
+
+      <tr>
+        <th colspan="2">
+          <h5>Thông tin người đặt vé</h4>
+        </th>
+      </tr>      
+      <tr>
+        <th>Họ và tên</th>
+        <td>
+          <input name="fullname" value="{{ form.fullname.value|default:'' }}" class="form-control">
+          {{ form.fullname.errors }}
+        </td>
+      </tr>
+      <tr>
+        <th>Số điện thoại</th>
+        <td>
+          <input name="phone" value="{{ form.phone.value|default:'' }}" class="form-control">
+          {{ form.phone.errors }}
+        </td>
+      </tr>
+    </table>
+    <button type='submit' class="btn btn-primary">Tiếp tục</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+<div class="container pt-3">
+  <form>
+    <div class="row">
+      <div class="col-12">
+        <input name="keyword" value="{{keyword}}" class="form-control" placeholder="Tìm kiếm bài hát">
+      </div>
+    </div>
+  </form>
+  {%if songs %}
+  <table class="table table-bordered">
+    <tr>
+      <th style="width:5%" class="text-center">STT</th>
+      <th style="width:45%" class="text-center">Tên bài hát</th>
+      <th style="width:25%" class="text-center">Ca sĩ thể hiện</th>
+      <th style="width:25%" class="text-center">Nhạc sĩ sáng tác</th>
+    </tr>
+    {% for s in songs %}
+    <tr>
+      <td class="text-center">{{ forloop.counter }}</td>
+      <td class="text-center">
+        {{ s.title }} &nbsp;
+        <a href='{% url "view-song" s.id %}' title="Nghe"><i class="fas fa-headphones"></i></a>
+      </td>
+      <td class="text-center">{{ s.artist.name }}</td>
+      <td class="text-center">{{ s.author.name }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+  <p>Không có bài hát nào</p>
+  {% endif %}
+</div>
+
+{% endblock %}

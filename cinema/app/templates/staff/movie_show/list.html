@@ -1,0 +1,61 @@
+{% extends 'staff/base.html' %}
+
+{% block navbar %}
+  {% with page=1 %}
+    {{ block.super }}
+  {% endwith %}
+{% endblock %}
+
+{% block content %}
+<div class="container pt-3">
+  <h3>Lịch chiếu phim</h3>
+  <div class="text-right mb-3">
+    <a href='{% url "movie-show-create" %}' class="btn btn-primary">Thêm lịch chiếu</a>
+  </div>
+  {%if movie_shows %}
+  <table class="table table-bordered">
+    <tr>
+      <th style="width:5%" class="text-center">STT</th>
+      <th style="width:25%" class="text-center">Phim</th>
+      <th style="width:20%" class="text-center">Ngày chiếu trong tuần</th>
+      <th style="width:20%" class="text-center">Giờ chiếu</th>
+      <th style="width:20%" class="text-center">Phòng chiếu</th>
+      <th style="width:10%" class="text-center">Thao tác</th>
+    </tr>
+    {% for s in movie_shows %}
+    <tr>
+      <td class="text-center">{{ forloop.counter }}</td>
+      <td class="text-center">{{ s.movie.name }}</td>
+      <td class="text-center">
+        {% if s.dayOfWeek == 1 %}
+          Chủ nhật
+        {% else %}
+          Thứ {{ s.dayOfWeek }}
+        {% endif %}
+      </td>
+      <td class="text-center">{{ s.time }}</td>
+      <td class="text-center">{{ s.room }}</td>
+      <td class="text-center">
+        <a title="Chỉnh sửa" href='{% url "movie-show-update" s.id %}'><i class="fas fa-edit"></i></a> &nbsp;
+        <a title="Xóa" style="color:red" href='#' onclick="confirmDelete(this)" url='{% url "movie-show-delete" s.id %}'>
+          <i class="fas fa-trash"></i>
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+  <p>Không có dữ liệu</p>
+  {% endif %}
+</div>
+
+<script>
+  function confirmDelete(a) {
+    var url = a.getAttribute('url');
+    if (confirm('Bạn có chắc chắn muốn xóa không?')) {
+      location.href = url;
+    }
+  }
+</script>
+
+{% endblock %}

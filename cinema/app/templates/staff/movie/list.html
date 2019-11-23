@@ -1,0 +1,71 @@
+{% extends 'staff/base.html' %}
+
+{% block navbar %}
+  {% with page=0 %}
+    {{ block.super }}
+  {% endwith %}
+{% endblock %}
+
+{% block content %}
+  <div class="container pt-3">    
+      <h3>Danh sách phim</h3>
+      <div class="text-right mb-3">
+        <a href='{% url "movie-create" %}' class="btn btn-primary">Thêm phim</a>
+      </div>
+      {%if movies %}
+      <table class="table table-bordered">
+        <tr>
+          <th style="width:4%" class="text-center">STT</th>
+          <th style="width:7%" class="text-center">Mã</th>
+          <th style="width:15%" class="text-center">Phim</th>
+          <th style="width:15%" class="text-center">Mô tả</th>
+          <th style="width:8%" class="text-center">Thể loại</th>
+          <th style="width:8%" class="text-center">Ngôn ngữ</th>
+          <th style="width:8%" class="text-center">Thời lượng</th>
+          <th style="width:10%" class="text-center">Ngày khởi chiếu</th>
+          <th style="width:8%" class="text-center">Giá vé</th>
+          <th style="width:8%" class="text-center">Trạng thái</th>
+          <th style="width:9%" class="text-center">Thao tác</th>
+        </tr>
+        {% for m in movies %}
+          <tr>
+            <td class="text-center">{{ forloop.counter }}</td>
+            <td class="text-center">{{ m.code }}</td>
+            <td class="text-center">
+              <img style="width:100%" src="/{{m.image}}">
+              <br>
+              {{ m.name }}
+            </td>
+            <td>{{ m.description }}</td>
+            <td class="text-center">{{ m.category.name }}</td>
+            <td class="text-center">{{ m.language.name }}</td>
+            <td class="text-center">{{ m.duration }} phút</td>
+            <td class="text-center">{{ m.onDate|date:"d/m/Y" }}</td>
+            <td class="text-center">{{ m.price }} <small>₫</small></td>
+            <td class="text-center">
+              {% if m.upcoming %} Chưa chiếu {%else%} Đang chiếu {%endif%}
+            </td>
+            <td class="text-center">
+              <a title="Chỉnh sửa"href='{% url "movie-update" m.id %}'><i class="fas fa-edit"></i></a> &nbsp;
+              <a title="Xóa" style="color:red" href='#' onclick="confirmDelete(this)" url='{% url "movie-delete" m.id %}'>
+                <i class="fas fa-trash"></i>
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% else %}
+      <p>Không có dữ liệu</p>
+    {% endif %}    
+  </div>
+
+  <script>
+    function confirmDelete(a) {
+      var url = a.getAttribute('url');
+      if(confirm('Bạn có chắc chắn muốn xóa không?')){
+        location.href = url;
+      }
+    }    
+  </script>
+
+{% endblock %}

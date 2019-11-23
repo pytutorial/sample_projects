@@ -1,0 +1,53 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+<div class="container mt-5 mb-3">
+  <h4>Xác nhận thông tin đặt vé</h4>
+  <table class="table table-form">
+    <tr>
+      <th colspan="2">
+        <h5>Thông tin phim đặt vé</h4>
+      </th>
+    </tr>
+    <tr>
+      <th>Tên phim:</th>
+      <td>
+        <img src="/{{movie.image}}" style="max-height: 200px;">
+        <br>
+        <span>{{ movie.name }}</span>
+      </td>
+    </tr>
+    <tr>
+      <th>Giá vé:</th>
+      <td>{{ movie.price }} ₫</td>
+    </tr>
+    <tr>
+      <th>Số lượng vé đặt:</th>
+      <td>{{ form.qty }}</td>
+    </tr>
+    <tr>
+      <th>Ngày giờ xem:</th>
+      <td>{{ form.date }}</td>
+    </tr>
+    <tr>
+      <th>Tổng tiền:</th>
+      <td><b>{{ form.total }} ₫</b></td>
+    </tr>
+
+    <tr>
+      <th colspan="2">
+        <h5>Thông tin người đặt vé</h4>
+      </th>
+    </tr>
+    <tr>
+      <th>Họ và tên:</th>
+      <td>{{ form.fullname }}</td>
+    </tr>
+    <tr>
+      <th>Số điện thoại:</th>
+      <td>{{ form.phone }}</td>
+    </tr>    
+  </table>
+  <a href='{% url "thank-you" %}' class='btn btn-primary'>Xác nhận</a>
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'staff/base.html' %}
+
+{% block navbar %}
+  {% with page=0 %}
+    {{ block.super }}
+  {% endwith %}
+{% endblock %}
+
+{% block content %}
+<div class="container pt-3">
+  <h3>Danh mục bài hát</h3>
+  <div class="text-right mb-3">
+    <a href='{% url "song-create" %}' class="btn btn-primary">Thêm bài hát</a>
+  </div>
+  {%if songs %}
+  <table class="table table-bordered">
+    <tr>
+      <th style="width:5%" class="text-center">STT</th>
+      <th style="width:10%" class="text-center">Mã</th>
+      <th style="width:14%" class="text-center">Tên bài hát</th>
+      <th style="width:15%" class="text-center">Mô tả</th>
+      <th style="width:9%" class="text-center">Thể loại</th>
+      <th style="width:9%" class="text-center">Ngôn ngữ</th>
+      <th style="width:10%" class="text-center">Ca sĩ thể hiện</th>
+      <th style="width:10%" class="text-center">Nhạc sĩ sáng tác</th>
+      <th style="width:8%" class="text-center">Năm phát hành</th>      
+      <th style="width:10%" class="text-center">Thao tác</th>
+    </tr>
+    {% for s in songs %}
+    <tr>
+      <td class="text-center">{{ forloop.counter }}</td>
+      <td class="text-center">{{ s.code }}</td>
+      <td class="text-center">{{ s.title }}</td>
+      <td>{{ s.description }}</td>
+      <td class="text-center">{{ s.category.name }}</td>
+      <td class="text-center">{{ s.language.name }}</td>
+      <td class="text-center">{{ s.artist.name }}</td>
+      <td class="text-center">{{ s.author.name }}</td>
+      <td class="text-center">{{ s.releaseYear|default:'' }}</td>      
+      <td class="text-center">
+        <a title="Chỉnh sửa" href='{% url "song-update" s.id %}'><i class="fas fa-edit"></i></a> &nbsp;
+        <a title="Xóa" style="color:red" href='#' onclick="confirmDelete(this)" url='{% url "song-delete" s.id %}'>
+          <i class="fas fa-trash"></i>
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+  <p>Không có dữ liệu</p>
+  {% endif %}
+</div>
+
+<script>
+  function confirmDelete(a) {
+    var url = a.getAttribute('url');
+    if (confirm('Bạn có chắc chắn muốn xóa không?')) {
+      location.href = url;
+    }
+  }    
+</script>
+
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'staff/base.html' %}
+
+{% block navbar %}
+{% with page=3 %}
+{{ block.super }}
+{% endwith %}
+{% endblock %}
+
+{% block content %}
+<div class="container pt-3">  
+  <h3>Danh mục nhà xuất bản</h3>
+  <div class="text-right mb-3">
+    <a href='{% url "publisher-create" %}' class="btn btn-primary">Thêm nhà xuất bản</a>
+  </div>
+  {%if publishers %}
+  <table class="table table-bordered">
+    <tr>
+      <th style="width:5%" class="text-center">STT</th>
+      <th style="width:40%" class="text-center">Mã</th>
+      <th style="width:45%" class="text-center">Tên</th>
+      <th style="width:10%" class="text-center">Thao tác</th>
+    </tr>
+    {% for publisher in publishers %}
+    <tr>
+      <td class="text-center">{{ forloop.counter }}</td>
+      <td class="text-center">{{ publisher.code }}</td>
+      <td class="text-center">{{ publisher.name }} </td>
+      <td class="text-center">
+        <a title="Chỉnh sửa"href='{% url "publisher-update" publisher.id %}'><i class="fas fa-edit"></i></a> &nbsp;
+        <a title="Xóa" style="color:red" href='#' onclick="confirmDelete(this)" url='{% url "publisher-delete" publisher.id %}'>
+          <i class="fas fa-trash"></i>
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+  <p>Không có dữ liệu</p>
+  {% endif %}
+</div>
+
+<script>
+  function confirmDelete(a) {
+    var url = a.getAttribute('url');
+    if (confirm('Bạn có chắc chắn muốn xóa không?')) {
+      location.href = url;
+    }
+  }
+</script>
+
+{% endblock %}

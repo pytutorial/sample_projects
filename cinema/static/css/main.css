@@ -1,0 +1,52 @@
+.movie-image {
+    width: 95%;
+    height: 90%;
+}
+
+.movie-title {
+    font-weight: 500;
+    font-size: 18px;
+    color: #222;
+}
+
+.movie-item {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 100%;
+}
+
+.movie-item, .movie-item:link, .movie-item:hover, .movie-item:visited {
+    
+    color: black;
+}
+
+.item-container {
+    width: 100%;
+    height: 400px; 
+    position:relative;     
+}
+
+.item-info {
+    height:50px;
+}
+
+.label-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.movie-detail-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.movie-detail-image{
+    height: 400px;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}

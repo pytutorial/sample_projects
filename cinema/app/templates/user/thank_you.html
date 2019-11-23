@@ -1,0 +1,10 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+<div class='container pt-5'>
+    <p>Cảm ơn bạn đã mua vé xem phim của rạp chúng tôi.</p>
+    <p>Mã đặt vé của bạn là : <b>{{ code }}</b> </p>
+    <p>Vui lòng cung cấp mã này khi đến quầy tiếp đón </p>
+    <a class="btn btn-primary" href='{% url "home" %}'>Quay về trang chủ</a>
+</div>
+{% endblock %}

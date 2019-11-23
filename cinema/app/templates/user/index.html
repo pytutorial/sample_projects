@@ -1,0 +1,49 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <form>
+    <div class="row">
+      <div class="col-4">
+        <select name="category_id" class="form-control">
+          <option value="">---Chọn thể loại phim---</option>
+          {% for c in categories %}
+          <option value="{{ c.id }}" {% if queryParams.category_id|add:0 == c.id %} selected {% endif %}>
+            {{ c.name }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-4">
+        <input name="name" value="{{ queryParams.name }}" class="form-control" placeholder="Tên phim">
+      </div>
+      <div class="col-4">
+        <button class="btn btn-primary">Tìm kiếm</button>
+      </div>
+    </div>
+  </form>
+  <div class="row">
+    <div class="col-12">
+      <div class="{%if movies %} d-none {%endif%}">
+        <label class='label-title'>Không tìm thấy kết quả nào</label>
+      </div>
+      <ul class="list-unstyled row">
+        {% for m in movies %}
+        <li class="list-item col-sm-4 mt-3">
+          <div class='item-container pt-2 pr-2'>
+            <a href="{% url 'view-movie' m.id %}" class='movie-item'>
+              <img src="/{{m.image}}" class='movie-image'>
+              <div class="item-info">
+                <div>
+                  <span class="movie-title">{{m.name}}</span>
+                </div>
+              </div>
+            </a>
+          </div>
+        </li>
+        {%endfor%}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}
