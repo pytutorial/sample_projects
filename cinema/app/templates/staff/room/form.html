@@ -1,7 +1,7 @@
 {% extends 'staff/base.html' %}
 
 {% block navbar %}
-  {% with page=3 %}
+  {% with page=1 %}
     {{ block.super }}
   {% endwith %}
 {% endblock %}
@@ -12,7 +12,7 @@
     {% csrf_token %}
     <table class="table table-form">{{ form }}</table>
     <button class="btn btn-primary" type="submit">Lưu lại</button>
-    <a class="btn btn-secondary" href='{% url "room-list" %}'>Quay lại</a>
+    <a class="btn btn-secondary" href='{% url "language-list" %}'>Quay lại</a>
   </form>
 </div>
 {% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'staff/base.html' %}
+
+{% block navbar %}
+{% with page=5 %}
+{{ block.super }}
+{% endwith %}
+{% endblock %}
+
+{% block content %}
+<div class="container pt-3">
+  <h3>Danh sách vé đặt</h3>
+  {%if bookings %}
+  <form class="mt-3">
+    <div class="row">
+      <div class="col-12">
+        <input name="keyword" value="{{ keyword }}" class="form-control" placeholder="Nhập số điện thoại để tìm kiếm">
+      </div>
+    </div>
+  </form>
+  <table class="table table-bordered">
+    <tr>
+      <th style="width:5%" class="text-center">STT</th>
+      <th style="width:20%" class="text-center">Phim</th>
+      <th style="width:15%" class="text-center">Người đặt</th>
+      <th style="width:15%" class="text-center">Số điện thoại</th>
+      <th style="width:15%" class="text-center">Ngày đặt vé</th>
+      <th style="width:15%" class="text-center">Ngày xem</th>
+      <th style="width:10%" class="text-center">Trạng thái</th>
+      <th style="width:5%" class="text-center">Thao tác</th>
+    </tr>
+    {% for b in bookings %}
+    <tr>
+      <td class="text-center">{{ forloop.counter }}</td>
+      <td class="text-center">{{ b.movie.name }}</td>
+      <td class="text-center">{{ b.fullname }}</td>
+      <td class="text-center">{{ b.phone }}</td>
+      <td class="text-center">{{ b.bookingDate|date:"d/m/Y h:i" }}</td>
+      <td class="text-center">{{ b.showDate|date:"d/m/Y h:i" }}</td>
+      <td class="text-center">
+        {%if b.status == 0 %}Chờ lấy vé{% endif %}
+        {%if b.status == 1 %}Đã lấy vé{% endif %}
+      </td>
+      <td class="text-center">
+        <a title="Xem chi tiết" href='{% url "booking-detail" b.id %}'><i class="fas fa-eye"></i></a>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+  <p>Không có dữ liệu</p>
+  {% endif %}
+</div>
+{% endblock %}

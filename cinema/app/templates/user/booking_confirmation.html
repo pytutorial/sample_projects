@@ -20,18 +20,26 @@
     <tr>
       <th>Giá vé:</th>
       <td>{{ movie.price }} ₫</td>
-    </tr>
-    <tr>
-      <th>Số lượng vé đặt:</th>
-      <td>{{ form.qty }}</td>
-    </tr>
+    </tr>   
     <tr>
       <th>Ngày giờ xem:</th>
       <td>{{ form.date }}</td>
     </tr>
+
+    <tr>
+      <th>Danh sách ghế ngồi đã chọn:</th>
+      <td>
+        <ul>
+          {%for seat in seats %}
+            <li>{{ seat }}</li>
+          {% endfor %}
+        </ul>
+      </td>
+    </tr>
+
     <tr>
       <th>Tổng tiền:</th>
-      <td><b>{{ form.total }} ₫</b></td>
+      <td><b>{{ total }} ₫</b></td>
     </tr>
 
     <tr>
@@ -48,6 +56,6 @@
       <td>{{ form.phone }}</td>
     </tr>    
   </table>
-  <a href='{% url "thank-you" %}' class='btn btn-primary'>Xác nhận</a>
+  <a href='{% url "thank-you" movie.id %}' class='btn btn-primary'>Xác nhận</a>
 </div>
 {% endblock %}

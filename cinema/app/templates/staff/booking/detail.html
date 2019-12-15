@@ -1,0 +1,68 @@
+{% extends 'staff/base.html' %}
+
+{% block navbar %}
+{% with page=5 %}
+{{ block.super }}
+{% endwith %}
+{% endblock %}
+
+{% block content %}
+<div class="container pt-3">
+  <div class="row">
+    <div class="col-8">
+      <table class="table">
+        <tr>
+          <th>Phim:</th>
+          <td>{{booking.movie.name}}</td>
+        </tr>
+        <tr>
+          <th>Người đặt vé:</th>
+          <td>{{booking.fullname}}</td>
+        </tr>
+        <tr>
+          <th>Số điện thoại:</th>
+          <td>{{booking.phone}}</td>
+        </tr>
+        <tr>
+          <th>Ngày đặt vé:</th>
+          <td>{{booking.bookingDate|date:"d/m/Y h:i"}}</td>
+        </tr>
+        <tr>
+          <th>Ngày xem:</th>
+          <td>{{booking.showDate|date:"d/m/Y h:i"}}</td>
+        </tr>
+        <tr>
+          <th>Danh sách ghế ngồi đã đặt:</th>
+          <td>
+            <ul>
+              {%for seat in seats %}
+                <li>{{ seat }}</li>
+              {% endfor %}
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th>Trạng thái:</th>
+          <td>
+            {%if booking.status == 0 %}Chờ lấy vé{% endif %}
+            {%if booking.status == 1 %}Đã lấy vé{% endif %}
+          </td>
+        </tr>
+      </table>
+      <br>
+      <a class="btn btn-secondary" href="{% url 'booking-list' %}">Quay lại</a>
+      {% if booking.status == 0 %}
+        <a class="btn btn-primary" href='#' onclick="confirmTicket(this)" url="{% url 'ticket-confirm' booking.id %}">Xác nhận đã lấy vé</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+<script>
+  function confirmTicket(a) {
+    var url = a.getAttribute('url');
+    if (confirm('Xác nhận người xem đã đến lấy vé tại quầy?')) {
+      location.href = url;
+    }
+  }
+</script>
+{% endblock %}

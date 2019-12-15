@@ -17,15 +17,21 @@
       <ul class="navbar-nav ml-3">
         <li class="nav-item {% if page == 0 %} active {% endif %}">
           <a class="nav-link" href="{% url 'movie-list' %}">Danh mục phim</a>
-        </li>
+        </li>        
         <li class="nav-item {% if page == 1 %} active {% endif %}">
-          <a class="nav-link" href="{% url 'movie-show-list' %}">Quản lý lịch chiếu phim</a>
-        </li>
-        <li class="nav-item {% if page == 2 %} active {% endif %}">
           <a class="nav-link" href="{% url 'language-list' %}">Danh mục ngôn ngữ</a>
         </li>
-        <li class="nav-item {% if page == 3 %} active {% endif %}">
+        <li class="nav-item {% if page == 2 %} active {% endif %}">
           <a class="nav-link" href="{% url 'category-list' %}">Danh mục thể loại</a>
+        </li>
+        <li class="nav-item {% if page == 3 %} active {% endif %}">
+          <a class="nav-link" href="{% url 'room-list' %}">Quản lý phòng chiếu</a>
+        </li>
+        <li class="nav-item {% if page == 4 %} active {% endif %}">
+          <a class="nav-link" href="{% url 'movie-show-list' %}">Quản lý lịch chiếu phim</a>
+        </li>
+        <li class="nav-item {% if page == 5 %} active {% endif %}">
+          <a class="nav-link" href="{% url 'booking-list' %}">Phòng kiểm tra vé</a>
         </li>
       </ul>
 

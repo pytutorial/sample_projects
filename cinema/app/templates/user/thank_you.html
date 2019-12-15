@@ -2,9 +2,9 @@
 
 {% block content %}
 <div class='container pt-5'>
+    <p>Bạn đã đặt mua vé xem phim {{ movie.name }} vào {{ date }}</p>
     <p>Cảm ơn bạn đã mua vé xem phim của rạp chúng tôi.</p>
-    <p>Mã đặt vé của bạn là : <b>{{ code }}</b> </p>
-    <p>Vui lòng cung cấp mã này khi đến quầy tiếp đón </p>
+    <p>Vui lòng cung cấp số điện thoại của bạn khi đến quầy soát vé </p>
     <a class="btn btn-primary" href='{% url "home" %}'>Quay về trang chủ</a>
 </div>
 {% endblock %}

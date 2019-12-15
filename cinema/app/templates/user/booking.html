@@ -1,6 +1,12 @@
 {% extends 'user/base.html' %}
 
 {% block content %}
+<style>
+  .btn-seat {
+    min-width: 60px;
+    margin-right: 5px;
+  }
+</style>
 <div class="container mt-5">
   <form method="POST" novalidate>
     {% csrf_token %}
@@ -8,7 +14,7 @@
     <table class="table table-form">
       <tr>
         <th colspan="2">
-          <h5>Thông tin phim đặt vé</h4>
+          <h5>Thông tin phim đặt vé</h5>
         </th>
       </tr>
       <tr>
@@ -19,37 +25,45 @@
           <span>{{ movie.name }}</span>
         </td>
       </tr>
-      <tr>
-        <th>Giá vé:</th>
-        <td>{{ movie.price }} ₫</td>
-      </tr>
 
       <tr>
-        <th>Số lượng vé đặt:</th>
-        <td>
-          <input name="qty" value="{{ form.qty.value|default:'' }}" class="form-control" type="number">
-          {{ form.qty.errors }}
-        </td>
+        <th>Giá vé:</th>
+        <td>{{ movie.price }}</td>
       </tr>
 
       <tr>
         <th>Ngày giờ xem:</th>
         <td>
-          <select name="date" class="form-control">
+          <input type="hidden" id="room" name="room">          
+          <select onchange="selectShow(this)" name="date" class="form-control">
             <option value="">------</option>
-            {% for date in dates %}
-              <option value="{{ date }}">{{ date }}</option>
+            {% for show in shows %}
+            <option room="{{ show.room }}" value="{{ show.date }}">{{ show.date }}</option>
             {% endfor %}
           </select>
           {{ form.date.errors }}
         </td>
       </tr>
 
+      <tr id="seatSelectPanel" style="display: none;">
+        <input type="hidden" id="selectedSeats" name="selectedSeats">
+        <td colspan="2">
+          <h5>Chọn ghế ngồi</h5>
+          <div id='roomMap'>
+          </div>
+          <div id='selectedSeatsPanel' style="display: none;">
+            <b>Danh sách ghế đã chọn</b>
+            <ul id='selectedSeatsList'>
+            </ul>
+          </div>
+        </td>
+      </tr>
+
       <tr>
         <th colspan="2">
-          <h5>Thông tin người đặt vé</h4>
+          <h5>Thông tin người đặt vé</h5>
         </th>
-      </tr>      
+      </tr>
       <tr>
         <th>Họ và tên</th>
         <td>
@@ -65,7 +79,92 @@
         </td>
       </tr>
     </table>
+    <ul>
+      {%if form.selectedSeats.errors %}
+        <li>Bạn phải chọn ghế xem phim</li>
+      {% endif %}
+    </ul>
     <button type='submit' class="btn btn-primary">Tiếp tục</button>
   </form>
 </div>
+<script>
+  var seats = [];
+  var selectedSeats = [];
+
+  function createRoomMap() {
+    var html = "";
+
+    for (var i = 0; i < seats.length; i++) {
+      var row = seats[i];
+      var rowHtml = ''
+      for (var j = 0; j < row.length; j++) {
+        var seat = row[j];
+        var seatCode = String.fromCharCode(i + 65) + (j + 1);
+        if (seat.available) {
+          rowHtml += `<button type="button" class="btn btn-seat btn-primary" onclick="addSeat(${i}, ${j})">` + seatCode + '</button>';
+        } else {
+          rowHtml += '<button type="button" class="btn btn-seat btn-secondary" disabled>' + seatCode + '</button>';
+        }
+      }
+      html += '<p>' + rowHtml + '</p>';
+    }
+
+    $("#roomMap").html(html);
+  }
+
+  async function selectShow(sel) {
+    
+    if (sel.selectedIndex >= 0) {
+      var selectedOpt = sel.options[sel.selectedIndex];
+      var roomCode = selectedOpt.getAttribute("room");
+      $('#room').val(roomCode);
+      var showDate = selectedOpt.value;
+      var url = '/get_seats_info?movie_id={{movie.id}}&room_code=' + roomCode + '&show_date=' + showDate;
+      var resp = await fetch(url);
+      seats = await resp.json();
+      createRoomMap();
+      $('#seatSelectPanel').show();
+    } else {
+      $('#seatSelectPanel').hide();
+    }
+  }
+
+  function createSelectedSeatsList() {
+    if(selectedSeats.length > 0) {
+      var html = '';
+      for(var i = 0; i < selectedSeats.length; i++){
+        var row = selectedSeats[i].row;
+        var col = selectedSeats[i].col;
+        var seatCode = String.fromCharCode(row + 65) + (col + 1);
+        html += '<li>' + seatCode +  
+                    ` <small><a style="color:red" href="javascript:deleteSelectedSeat(${i})">x</a></small></li>`;
+      }
+      $('#selectedSeatsList').html(html);
+      $('#selectedSeatsPanel').show();
+    }else{
+      $('#selectedSeatsPanel').hide();
+    }
+  }
+
+  function addSeat(row, col) {
+    selectedSeats.push({row: row, col: col});
+    createSelectedSeatsList();
+
+    seats[row][col].available = false;
+    $('#selectedSeatsPanel').show();
+    createRoomMap();
+    $('#selectedSeats').val(selectedSeats.map(x => x.row + ',' + x.col).join(';'));
+  }
+
+  function deleteSelectedSeat(i) {
+    seat = selectedSeats[i];
+    row = seat.row;
+    col = seat.col;
+    seats[row][col].available = true;
+    selectedSeats.splice(i, 1);
+    createSelectedSeatsList();
+    createRoomMap();
+    $('#selectedSeats').val(selectedSeats.map(x => x.row + ',' + x.col).join(';'));
+  }
+</script>
 {% endblock %}
