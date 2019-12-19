@@ -1,0 +1,22 @@
+{% extends 'staff/base.html' %}
+
+{% block navbar %}
+  {% with page=1 %}
+    {{ block.super }}
+  {% endwith %}
+{% endblock %}
+
+{% block content %}
+  <div class="container pt-3">
+    <form method="POST" novalidate> 
+      {% csrf_token %}
+      <div class="form-group">
+        <label>Thời điểm giao hàng (dd/mm/yyyy HH:MM):</label>
+        <input class="form-control" name="deliverDate">
+        {{ deliverDate_error }}
+      </div>
+      <a class="btn btn-secondary" href='{% url "order-list" %}'>Quay lại</a>
+      <button class="btn btn-primary">Xác nhận</button>
+    </form>
+  </div>
+{% endblock %}

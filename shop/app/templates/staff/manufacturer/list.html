@@ -1,7 +1,7 @@
 {% extends 'staff/base.html' %}
 
 {% block navbar %}
-{% with page=1 %}
+{% with page=2 %}
 {{ block.super }}
 {% endwith %}
 {% endblock %}
@@ -26,7 +26,7 @@
             <td class="text-center">{{ m.code }}</td>
             <td class="text-center">{{ m.name }}</td>
             <td class="text-center">
-              <a title="Chỉnh sửa"href='{% url "manufacturer-update" m.id %}'><i class="fas fa-edit"></i></a> &nbsp;
+              <a title="Chỉnh sửa" href='{% url "manufacturer-update" m.id %}'><i class="fas fa-edit"></i></a> &nbsp;
               <a title="Xóa" style="color:red" href='#' onclick="confirmDelete(this)" url='{% url "manufacturer-delete" m.id %}'>
                 <i class="fas fa-trash"></i>
               </a>

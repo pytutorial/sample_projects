@@ -42,3 +42,17 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+class Order(models.Model):
+    class Status:
+        ORDERED = 1
+        DELIVERED = 2
+        CANCELED = 3
+        
+    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    fullname = models.CharField(max_length=50)
+    phone = models.CharField(max_length=20)
+    address = models.CharField(max_length=200)
+    orderDate = models.DateTimeField()
+    deliverDate = models.DateTimeField(null=True)
+    status = models.IntegerField()

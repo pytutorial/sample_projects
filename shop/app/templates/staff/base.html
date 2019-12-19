@@ -18,12 +18,15 @@
           <a class="nav-link" href="{% url 'product-list' %}">Quản lý sản phẩm</a>
         </li>
         <li class="nav-item {% if page == 1 %} active {% endif %}">
-          <a class="nav-link" href="{% url 'manufacturer-list' %}">Quản lý hãng sản xuất</a>
+          <a class="nav-link" href="{% url 'order-list' %}">Quản lý đơn hàng</a>
         </li>
         <li class="nav-item {% if page == 2 %} active {% endif %}">
-          <a class="nav-link" href="{% url 'cpu-type-list' %}">Quản lý loại cpu</a>
+          <a class="nav-link" href="{% url 'manufacturer-list' %}">Quản lý hãng sản xuất</a>
         </li>
         <li class="nav-item {% if page == 3 %} active {% endif %}">
+          <a class="nav-link" href="{% url 'cpu-type-list' %}">Quản lý loại cpu</a>
+        </li>
+        <li class="nav-item {% if page == 4 %} active {% endif %}">
           <a class="nav-link" href="{% url 'disk-type-list' %}">Quản lý loại ổ cứng</a>
         </li>
       </ul>

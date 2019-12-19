@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms_staff import *
+from datetime import datetime
 
 #================================== Manage products ========================================
 
@@ -40,6 +41,37 @@ def deleteProduct(request, id):
     p = get_object_or_404(Product, pk=id)
     p.delete()
     return redirect('product-list')
+
+#================================== Manage orders ========================================
+@login_required 
+def listOrder(request):
+    orders = Order.objects.all().order_by('status')
+    return render(request, 'staff/order/list.html', {'orders': orders})
+
+@login_required 
+def deliverOrder(request, id):
+    deliverDate_error = ''
+    if request.method == 'POST':
+        try:
+            deliverDate = datetime.strptime(request.POST['deliverDate'], '%d/%m/%Y %H:%M')
+        except:
+            deliverDate_error = 'Thời gian không hợp lệ'
+        
+        if deliverDate_error == '':
+            order = get_object_or_404(Order, pk=id)
+            order.status = Order.Status.DELIVERED
+            order.deliverDate = deliverDate
+            order.save()
+            return redirect('order-list')
+    
+    return render(request, 'staff/order/deliver_form.html', {'deliverDate_error' : deliverDate_error})
+
+@login_required 
+def cancelOrder(request, id):
+    order = get_object_or_404(Order, pk=id)
+    order.status = Order.Status.CANCELED
+    order.save()
+    return redirect('order-list')
 
 #================================== Manage manufacturers ========================================
 @login_required

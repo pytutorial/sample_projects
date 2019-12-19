@@ -13,7 +13,7 @@ urlpatterns =[
     path('product_detail/<int:id>', views_user.viewProduct, name='view-product'),
     path('purchase/<int:id>', views_user.purchase, name='purchase'),
     path('purchase_confirm/<int:id>', views_user.purchaseConfirm, name='purchase-confirm'),
-    path('thank_you', views_user.thankYou, name='thank-you'),  
+    path('thank_you/<int:id>', views_user.thankYou, name='thank-you'),  
 
     # ================================Staff pages =========================================
 
@@ -22,6 +22,11 @@ urlpatterns =[
     path('staff/product_create', views_staff.createProduct, name='product-create'),  
     path('staff/product_update/<int:id>', views_staff.updateProduct, name='product-update'),  
     path('staff/product_delete/<int:id>', views_staff.deleteProduct, name='product-delete'),  
+
+    # Manage orders
+    path('staff/order_list', views_staff.listOrder, name='order-list'),  
+    path('staff/order_deliver/<int:id>', views_staff.deliverOrder, name='order-deliver'),  
+    path('staff/order_cancel/<int:id>', views_staff.cancelOrder, name='order-cancel'),  
 
     # Manage manufactures
     path('staff/manufacturer_list', views_staff.listManufacturer, name='manufacturer-list'),  

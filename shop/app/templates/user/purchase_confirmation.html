@@ -40,6 +40,6 @@
       <td>{{ form.address }}</td>
     </tr>
   </table>
-  <a href='{% url "thank-you" %}' class='btn btn-primary'>Xác nhận</a>
+  <a href='{% url "thank-you" product.id %}' class='btn btn-primary'>Xác nhận</a>
 </div>
 {% endblock %}

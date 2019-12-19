@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from datetime import datetime
 from .models import *
 from .forms_user import *
 
@@ -85,5 +86,17 @@ def purchaseConfirm(request, id):
     form = request.session.get('purchase_form')
     return render(request, 'user/purchase_confirmation.html', {'product': product, 'form': form})
 
-def thankYou(request):
+def thankYou(request, id):
+    product = get_object_or_404(Product, pk=id)    
+    form = request.session.get('purchase_form')
+
+    Order.objects.create(
+        product=product,
+        fullname=form['fullname'],
+        phone=form['phone'],
+        address=form['address'],
+        orderDate=datetime.now(),
+        status=Order.Status.ORDERED
+    )
+
     return render(request, 'user/thank_you.html')
