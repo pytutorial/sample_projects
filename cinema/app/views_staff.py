@@ -200,9 +200,9 @@ def listBooking(request):
     bookings = Booking.objects.all().order_by('status')
     
     if keyword:
-        bookings = bookings.filter(phone=keyword)
+        bookings = bookings.filter(phone__contains=keyword)
 
-    return render(request, 'staff/booking/list.html', {'bookings' : bookings})
+    return render(request, 'staff/booking/list.html', {'keyword': keyword, 'bookings' : bookings})
 
 @login_required
 def bookingDetail(request, id):

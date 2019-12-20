@@ -9,7 +9,6 @@
 {% block content %}
 <div class="container pt-3">
   <h3>Danh sách vé đặt</h3>
-  {%if bookings %}
   <form class="mt-3">
     <div class="row">
       <div class="col-12">
@@ -17,6 +16,7 @@
       </div>
     </div>
   </form>
+  {%if bookings %}  
   <table class="table table-bordered">
     <tr>
       <th style="width:5%" class="text-center">STT</th>
